@@ -4,6 +4,8 @@
 
 Estimate event offset and clock drift, synthesize a failing MP4, repair it with FFmpeg, and remeasure the result.
 
+![avsyncdoctor cover](demo/cover.png)
+
 ![avsyncdoctor workbench](demo/dashboard.png)
 
 ## What ships
