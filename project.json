@@ -1,0 +1,11 @@
+{
+  "name": "avsyncdoctor",
+  "tagline": "Audio-video offset and drift repair tool",
+  "headline": "Lip sync can start right and still drift apart.",
+  "summary": "Estimate event offset and clock drift, synthesize a failing MP4, repair it with FFmpeg, and remeasure the result.",
+  "accent": "#ff8fa8",
+  "topics": "audio-video,av-sync,ffmpeg,video-processing,audio-processing,multimodal",
+  "sources": [
+    ["AV-SyncBench", "https://arxiv.org/abs/2607.00726"]
+  ]
+}

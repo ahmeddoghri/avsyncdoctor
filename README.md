@@ -1,0 +1,45 @@
+# avsyncdoctor
+
+**Audio-video offset and drift repair tool.**
+
+Estimate event offset and clock drift, synthesize a failing MP4, repair it with FFmpeg, and remeasure the result.
+
+![avsyncdoctor workbench](demo/dashboard.png)
+
+## What ships
+
+- Least-squares offset, clock-ratio, drift-ppm, skew, and residual estimation
+- Real OpenCV flash-video and WAV click-track synthesis, muxed through FFmpeg
+- Automatic media event detection and FFmpeg trim/tempo correction with remeasurement
+- CLI, JSON API, synchronization workbench, Docker, tests, and CI
+
+## Run it end to end
+
+```bash
+python -m venv .venv && source .venv/bin/activate
+python -m pip install -e .
+avsyncdoctor synthesize drifted.mp4
+avsyncdoctor inspect drifted.mp4
+avsyncdoctor correct drifted.mp4 corrected.mp4
+avsyncdoctor serve
+```
+
+## Demo result
+
+Five events contain a known 120 ms offset and 5,000 ppm clock drift. The estimator recovers both exactly from the JSON fixture; the integration test detects them in a real MP4, applies correction, and requires the remeasured output to fall below a 40 ms skew budget.
+
+## Current basis
+
+- [AV-SyncBench: Decoupled Benchmarking of Temporal and Semantic Audio-Visual Synchronization](https://arxiv.org/abs/2607.00726)
+
+## Scope
+
+This event-based path is designed for flashes, claps, impacts, and other measurable anchors. Semantic mismatch and continuous speech alignment require content-aware audio-visual features.
+
+## Test
+
+```bash
+python -m unittest discover -s tests -v
+```
+
+MIT licensed.
