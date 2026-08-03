@@ -24,10 +24,14 @@ def estimate(video_events: list[float], audio_events: list[float], tolerance_ms:
     x_mean = sum(video_events) / len(video_events)
     y_mean = sum(audio_events) / len(audio_events)
     denominator = sum((value - x_mean) ** 2 for value in video_events)
+    if denominator <= 0:
+        raise ValueError("video_events_seconds must contain at least two distinct timestamps")
     slope = sum((x - x_mean) * (y - y_mean) for x, y in zip(video_events, audio_events)) / denominator
     intercept = y_mean - slope * x_mean
     residuals = [audio - (intercept + slope * video) for video, audio in zip(video_events, audio_events)]
     before_skew = [(audio - video) * 1000 for video, audio in zip(video_events, audio_events)]
+    if slope == 0:
+        raise ValueError("audio_events_seconds show no measurable correlation with video_events_seconds")
     corrected = [(audio - intercept) / slope for audio in audio_events]
     after_skew = [(audio - video) * 1000 for video, audio in zip(video_events, corrected)]
     return {
