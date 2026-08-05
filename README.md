@@ -13,7 +13,7 @@ Estimate event offset and clock drift, synthesize a failing MP4, repair it with 
 - Least-squares offset, clock-ratio, drift-ppm, skew, and residual estimation
 - Real OpenCV flash-video and WAV click-track synthesis, muxed through FFmpeg
 - Automatic media event detection and FFmpeg trim/tempo correction with remeasurement
-- CLI, JSON API, synchronization workbench, Docker, tests, and CI
+- CLI, JSON API, synchronization workbench, Docker, tests
 
 ## Run it end to end
 
