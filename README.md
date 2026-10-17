@@ -1,5 +1,7 @@
 # avsyncdoctor
 
+[![tests](https://github.com/ahmeddoghri/avsyncdoctor/actions/workflows/tests.yml/badge.svg)](https://github.com/ahmeddoghri/avsyncdoctor/actions/workflows/tests.yml) [![case study](https://img.shields.io/badge/case%20study-adoghri.com-e0703e)](https://adoghri.com/project-62.html)
+
 **Audio-video offset and drift repair tool.**
 
 Estimate event offset and clock drift, synthesize a failing MP4, repair it with FFmpeg, and remeasure the result.
