@@ -59,6 +59,31 @@ a demo-output regression check; the published demo numbers (120 ms
 offset, 5,000 ppm drift, fails before / passes after correction) are
 unaffected.
 
+## Which number to gate on when the anchors are detected, not exact
+
+The bundled fixture places its anchors exactly and recovers the offset and
+drift to the digit. Real flash and click detection lands a frame or two off,
+so `python -m avsyncdoctor.sweep` draws random offsets and drifts and
+jitters every detected event by one frame at 24 fps:
+
+| | anchors | offset error | drift error | fit RMSE | max residual | within 40 ms |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| exact events | 5 | 0.000 ms | 0 ppm | 0.0 ms | 0.0 ms | 100% |
+| one-frame jitter | 5 | 27.2 ms | 3398 ppm | 29.5 ms | 43.7 ms | 41% |
+| one-frame jitter | 12 | **16.2 ms** | **1087 ppm** | 37.1 ms | **71.9 ms** | **4%** |
+
+Read that last row carefully. Adding anchors makes the **fit** clearly
+better: offset error drops by a third and drift error by two thirds. It
+makes the shipped pass rate collapse from 41% to 4%, because
+`max_skew_after_model_ms` is an order statistic over the anchors, and the
+largest of twelve jittered residuals is naturally bigger than the largest of
+five. It is measuring anchor detection noise, not fit quality.
+
+`fit_rmse_ms` is the number to gate on in that situation: it stays near the
+anchor noise level (29.5 and 37.1 ms against 41.7 ms of jitter) instead of
+inflating with sample size. Keep `max_skew_after_model_ms` for exact anchors
+like a test slate, where any residual really is a defect.
+
 ## Scope
 
 This event-based path is designed for flashes, claps, impacts, and other measurable anchors. Semantic mismatch and continuous speech alignment require content-aware audio-visual features.
